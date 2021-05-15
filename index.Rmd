@@ -175,4 +175,4 @@ I have learned how to locate, format and visualise raw data and apply programmin
 
 If I had the benefit of more time and data I would source more data from the Met Office database and expand my location parameters to the whole of the UK. I would then examine  patterns in the entire UK as this would give a more comprehensive view of how air temperatures are behaving or changing. Widening the location parameters will also enhance the quality of sustainability strategies because a wider scope creates room for wider consideration, and thus, wider possibility in the quality of sustainability strategies.  
 
-I have learned the increasing prominence of open source data sharing in research. In the same vein, this analysis was performed using RStudio & the rMarkdown file & all other associated data files are available on [GitHub](https://github.com/bgpritchard) 
+I have learned the increasing prominence of open source data sharing in research. In the same vein, this analysis was performed using RStudio & the rMarkdown file & all other associated data files are available on [GitHub](https://github.com/bgpritchard/bgpritchard.github.io) 
