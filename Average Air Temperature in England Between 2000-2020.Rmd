@@ -1,0 +1,178 @@
+---
+title: "PSY6422 Data Management and Visualisation"
+author: "B. Pritchard"
+date: "May 2021"
+--- 
+
+### Research Question: How have average seasonal patterns of air temperature in England changed between 2000-2020?
+
+#### Background, Motivation & Aims 
+
+This project aims to present interpolated climate data from the Met Office HadUK-Grid database. Specifically, average air temperature in spring, summer, autumn and winter in England between 2000-2020. 
+
+Further, material is offered here which may contribute to strengthening sustainability strategies for improving environmental prospects in the interests of future generations. 
+
+Environmental scientists lament that [global temperatures will continue to rise for decades to come](https://climate.nasa.gov/effects/). Currently, climate change has not relinquished its destructive presence, even during a [pandemic](https://www.unep.org/news-and-stories/press-release/united-science-report-climate-change-has-not-stopped-covid19). This is typified by the 2020 California [wildfires](https://www.bbc.co.uk/news/world-us-canada-54180049) and the melting of more Antarctic [glaciers](https://www.wbur.org/hereandnow/2020/02/17/antarctica-iceberg-breaks-off), to name just two. 
+
+The effects of climate change are collateral and affect every ecosystem on the planet. Driven by atmospheric kinetics, patterns of weather are controlled relative to air temperature. It does this by influencing the evaporation rate, relative humidity, wind speed/ direction, and patterns of precipitation (rain, snow, & sleet). In addition to this, air temperature is also a key aspect of [plant growth and reproduction](https://www.fondriest.com/news/airtemperature.htm#:~:text=Air%20temperature%20is%20a%20measure,more%20quickly%2C%20air%20temperature%20increases). 
+ 
+Considering this, it is clear that air temperature is vital in sustaining the prosperity of [biotic](https://resources.finalsite.net/images/v1586758961/lighthouseacademiesorg/f6kxlrihtamxhmfkuyfd/7thgradeCheckpoint1Resource-Ecosystems-AbioticvsBiotic.pdf) and [abiotic](https://resources.finalsite.net/images/v1586758961/lighthouseacademiesorg/f6kxlrihtamxhmfkuyfd/7thgradeCheckpoint1Resource-Ecosystems-AbioticvsBiotic.pdf) ecosystems. 
+
+#### What is air temperature & why is this important? 
+Air temperature is the most [commonly](https://www.fondriest.com/news/airtemperature.htm#:~:text=Air%20temperature%20is%20a%20measure,more%20quickly%2C%20air%20temperature%20increases.) measured weather parameter. 
+
+Produced by the kinetic motion of gas particles suspended in the air, warmer air temperatures are produced by increased rate of motion. Conversely, colder air temperatures are produced by decreased rate of motion. 
+
+
+#### Data Origins 
+
+Raw data was collected from the [Met Office National Climate Information Centre](https://www.metoffice.gov.uk/research/climate/maps-and-data/uk-and-regional-series). 
+
+Variables were season, date and location. This project took data recorded in England within the date parameters of 2000-2020 in spring, summer, autumn and winter. These date parameters were picked strategically, considering that all of the UK's [ten warmest years on record have occurred since 2002](https://www.metoffice.gov.uk/weather/climate-change/effects-of-climate-change).
+
+#### Data Preparation: 
+
+*1)* Seasonal data collected using date parameters 2000-2020. All other dates preceding and superseding these parameters were excluded. 2021 excluded due to incomplete data set. 
+
+*2)* Packages installed and retrieved from item library. 
+
+```{r}
+# Retrieve packages from item library
+library(tidyverse)
+library(hrbrthemes)
+library(gapminder)
+```
+
+*2)* Raw data tabulated into four separate *xlsx* files & categorised by season. 
+
+*3)* Individual *xlsx* files converted into *csv.* format and imported as dataframes into RStudio.
+
+```{r}
+# Load individual data frames 
+data_Autumn = read.csv("Autumn.csv")
+data_Summer = read.csv("Summer.csv")
+data_Spring = read.csv("Spring.csv")
+data_Winter = read.csv("Winter.csv")
+```
+*4)* Saved to the 'Average Air Temperature' working directory. 
+
+*6)* Dataframes plotted as line graphs. 
+
+*7)* Axis configured and labeled - x axis: air temperature, y axis: year.  
+
+*8)* Colour themes assigned to each graph according to season: Winter: blue, Autumn: orange, Spring: pink, Summer: yellow. 
+
+*9)* Data clustering 
+
+*10)* Summary line graph plotted with the clustered data - each line representing every season. 
+
+### Visualisation 1: Average Air Temperature in Spring 2000-2020
+
+```{r}
+#summarise data, show all rows and columns  
+head(data_Spring,21)
+```
+
+```{r}
+#plot data  
+plot(data_Spring, type="l", lwd=2, col="pink", xlab="YEAR", ylab="TEMPERATURE", main="Average Air Temperature in Spring Between 2000-2020")
+```
+
+### Visualisation 2: Average Air Temperature in Summer 2000-2020
+
+```{r}
+#summarise data, show all rows and columns
+head(data_Summer,21)
+```
+
+```{r}
+#plot data
+plot(data_Summer, type="l", lwd=2, col="yellow", xlab="YEAR", ylab="TEMPERATURE", main="Average Air Temperature in Summer Between 2000-2020")
+```
+
+### Visualisation 3: Average Air Temperature in Autumn 2000-2020
+```{r}
+#summarise data, show all rows and columns
+head(data_Autumn,21)
+```
+
+```{r}
+#plot data
+plot(data_Autumn, type="l", lwd=2, col="orange", xlab="YEAR", ylab="TEMPERATURE", main="Average Air Temperature in Autumn Between 2000-2020")
+```
+
+### Visualisation 4: Average Air Temperature in Winter 2000-2020
+```{r}
+#summarise data, show all rows and columns
+head(data_Winter,21)
+```
+
+```{r}
+#plot data
+plot(data_Winter, type="l", lwd=2, col="blue", xlab="YEAR", ylab="TEMPERATURE", main="Average Air Temperature in Winter Between 2000-2020")
+```
+
+### Visualisation 5: Average Air Temperature Summarised 
+```{r}
+# Data clustering
+data = data.frame("Year"=seq(1,84),"Season"=NA,"Value"=NA)
+k = 1
+for (i in unique(data_Autumn$YEAR)) {
+  data$Year[k] = i
+  data$Season[k]="Autumn"
+  data$Value[k] = data_Autumn$AUTUMN[data_Autumn$YEAR == i]
+  k = k+1
+  data$Year[k] = i
+  data$Season[k]="Summer"
+  data$Value[k] = data_Summer$SUMMER[data_Summer$YEAR == i]
+  k = k+1
+  data$Year[k] = i
+  data$Season[k]="Winter"
+  data$Value[k] = data_Winter$WINTER[data_Winter$YEAR == i]
+  k = k+1
+  data$Year[k] = i
+  data$Season[k]="Spring"
+  data$Value[k] = data_Spring$SPRING[data_Spring$YEAR == i]
+  k = k+1
+}
+```
+
+```{r}
+# Plot
+ggplot(data,aes(x = Year, y = Value, color = Season, group = Season )) +
+  geom_line(aes(col = Season,),  size=1) +
+  theme_ipsum() +
+  labs(y = "Average air temperature", x="Year")+
+  ggtitle("Average Air Temperature in Each Season Between 2000-2020")+
+  scale_color_manual(breaks = c("Autumn", "Spring", "Summer","Winter"),
+                     values=c("orange", "pink", "gold2","blue"))+
+  theme(axis.title.x  = element_text(size = 13, vjust=0, hjust = 0.5),
+        axis.title.y  = element_text(size = 13,hjust = 0.5))
+```
+
+### Discussion 
+
+In Spring, the most significant fluctuations were recorded in 2006 and 2013, seen in *visualisation 1*. [2013](https://notalotofpeopleknowthat.wordpress.com/2013/06/23/uk-weather-reportspring-2013/) was noted by the Met Office to have experienced the coldest Spring in England since 1891. 
+
+Trends in summer appear to decrease - there was a marked increase in 2006 due to [record breaking heat and sunshine](https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/weather/learn-about/uk-past-events/interesting/2006/record-breaking-heat-and-sunshine---july-2006---met-office.pdf). Additionally, a major decrease is seen in [2007](https://www.reading.ac.uk/news-archive/press-releases/pr6880.html) - archival reports corroborate this, as significant rainfall was recorded throughout the summer period. Interestingly, the most recent recording seems to be anomalous compared to the relative air temperature patterns recorded in all the seasons in 2020. *visualisation 2* shows this 20-year-long inconsistency in full. 
+
+Trends continually fluctuated in Autumn throughout the years, particularly in [2006](https://www.nature.com/news/2006/061204/full/061204-2.html) and [2011](https://blog.metoffice.gov.uk/2011/09/27/2398/.), as seen in *visualisation 3*. 
+
+In winter [2010](https://www.metoffice.gov.uk/binaries/content/assets/metofficegovuk/pdf/weather/learn-about/uk-past-events/interesting/2010/snow-and-low-temperatures-december-2010---met-office.pdf), there were reports of extremely low temperatures and significant snowfalls, shown in *visualisation 4*. 
+
+
+### Future Applicability 
+The evidence presented here enables up-to-date and intuitive tracking of how average air temperatures are evolving. Furthermore, incorporating archived weather reports into analysis aids in evaluating the anomalous data whilst corroborating the nature of the trends seen in the visualisations. 
+
+In recent years, average air temperatures are increasing as opposed to decreasing. However, there are anomalies in the data, particularly in the 2020 recording of summer which requires further investigation for reproducibility. 
+
+This project can be extended to include other regions of the UK given that this visualisation focused solely on England. Broadening the location parameters will benefit future projects as it will diversify future discussions and give a much broader insight into how air temperature patterns are changing. 
+
+Given that air temperature is noted to have collateral impact on all ecosystems, this project can also be the basis for future investigation into how plant ecosystems have developed or changed as a result of erratic and seemingly rising air temperature patterns. 
+
+### Conclusion 
+I have learned how to locate, format and visualise raw data and apply programming techniques to create striking and informative graphs that inspire research questions or enhance research projects for publication.  
+
+If I had the benefit of more time and data I would source more data from the Met Office database and expand my location parameters to the whole of the UK. I would then examine  patterns in the entire UK as this would give a more comprehensive view of how air temperatures are behaving or changing. Widening the location parameters will also enhance the quality of sustainability strategies because a wider scope creates room for wider consideration, and thus, wider possibility in the quality of sustainability strategies.  
+
+I have learned the increasing prominence of open source data sharing in research. In the same vein, this analysis was performed using RStudio & the rMarkdown file & all other associated data files are available on GitHub.
